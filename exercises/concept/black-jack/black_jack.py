@@ -19,7 +19,13 @@ def value_of_card(card):
         3.  '2' - '10' = numerical value.
     """
 
-    pass
+    if card in {'J', 'Q', 'K'}:
+        return 10
+    if card == 'A':
+        return 1
+    if int(card) in range (2, 11):
+        return int(card)
+    return None
 
 
 def higher_card(card_one, card_two):
@@ -37,7 +43,16 @@ def higher_card(card_one, card_two):
         str or tuple: The resulting tuple contains both cards if they are of equal value.
     """
 
-    pass
+    value_card_one = value_of_card(card_one)
+    value_card_two = value_of_card(card_two)
+
+    if value_card_one < value_card_two:
+        return card_two
+    if value_card_one > value_card_two:
+        return card_one
+    if value_card_one == value_card_two:
+        return card_one, card_two
+    return None
 
 
 def value_of_ace(card_one, card_two):
@@ -55,8 +70,18 @@ def value_of_ace(card_one, card_two):
         int: Either 1 or 11, which is the value of the upcoming ace card.
     """
 
-    pass
+    value_card_one = value_of_card(card_one)
+    value_card_two = value_of_card(card_two)
+    cards = {card_one, card_two}
 
+    if 'A' in cards:
+        return 1
+    if value_card_one + value_card_two > 10:
+        return 1
+    if value_card_one + value_card_two <= 10:
+        return 11
+    return None
+    
 
 def is_blackjack(card_one, card_two):
     """Determine if the hand is a 'natural' or 'blackjack'.
@@ -73,7 +98,17 @@ def is_blackjack(card_one, card_two):
         bool: Is the hand is a blackjack (two cards worth 21).
     """
 
-    pass
+    cards = {card_one, card_two}
+    tens = {'10', 'J', 'Q', 'K'}
+    
+    if 'A' not in cards:
+        return False
+    if 'A' in cards:
+        if not tens.isdisjoint(cards):
+            return True
+        if tens.isdisjoint(cards):
+            return False
+    return None
 
 
 def can_split_pairs(card_one, card_two):
@@ -87,7 +122,14 @@ def can_split_pairs(card_one, card_two):
         bool: Can the hand be split into two pairs? (i.e. cards are of the same value).
     """
 
-    pass
+    value_card_one = value_of_card(card_one)
+    value_card_two = value_of_card(card_two)
+
+    if value_card_one == value_card_two:
+        return True
+    if value_card_one != value_card_two:
+        return False
+    return None
 
 
 def can_double_down(card_one, card_two):
@@ -101,4 +143,12 @@ def can_double_down(card_one, card_two):
         bool: Can the hand can be doubled down? (i.e. totals 9, 10 or 11 points).
     """
 
-    pass
+    value_card_one = value_of_card(card_one)
+    value_card_two = value_of_card(card_two)
+    total = value_card_one + value_card_two
+
+    if 9 <= total <= 11:
+        return True
+    if total < 9 or total > 11:
+        return False
+    return None
