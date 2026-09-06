@@ -14,13 +14,9 @@ def add_me_to_the_queue(express_queue, normal_queue, ticket_type, person_name):
         list: The (updated) queue the name was added to.
     """
 
-    if ticket_type == 1:
-        express_queue.append(person_name)
-        return express_queue
-    if ticket_type == 0:
-        normal_queue.append(person_name)
-        return normal_queue
-    return None
+    queues = {1: express_queue, 0: normal_queue}
+    target_queue = queues[ticket_type].append(person_name)
+    return target_queue
     
 
 def find_my_friend(queue, friend_name):
