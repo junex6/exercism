@@ -14,7 +14,7 @@ def get_rounds(number):
         list: The current round number and the two that follow.
     """
 
-    pass
+    return list(range(number, number + 3))
 
 
 def concatenate_rounds(rounds_1, rounds_2):
@@ -28,7 +28,7 @@ def concatenate_rounds(rounds_1, rounds_2):
         list:  All rounds played.
     """
 
-    pass
+    return rounds_1 + rounds_2
 
 
 def list_contains_round(rounds, number):
@@ -42,7 +42,7 @@ def list_contains_round(rounds, number):
         bool: Was the round played?
     """
 
-    pass
+    return number in rounds
 
 
 def card_average(hand):
@@ -55,7 +55,7 @@ def card_average(hand):
         float: The average value of the cards in the hand.
     """
 
-    pass
+    return sum(hand) / len(hand)
 
 
 def approx_average_is_average(hand):
@@ -68,8 +68,11 @@ def approx_average_is_average(hand):
         bool: Does one of the approximate averages equal the `true average`?
     """
 
-    pass
-
+    actual_avg = card_average(hand)
+    first_last_avg = (hand[0] + hand[-1]) / 2
+    median_card = hand[len(hand) // 2]
+    
+    return actual_avg in (first_last_avg, median_card)
 
 def average_even_is_average_odd(hand):
     """Return if the (average of even indexed card values) == (average of odd indexed card values).
@@ -81,8 +84,10 @@ def average_even_is_average_odd(hand):
         bool: Are the even and odd averages equal?
     """
 
-    pass
+    even_indexed_avg = card_average(hand[0::2])
+    odd_indexed_avg = card_average(hand[1::2])
 
+    return even_indexed_avg == odd_indexed_avg
 
 def maybe_double_last(hand):
     """Multiply a Jack card value in the last index position by 2.
@@ -94,4 +99,8 @@ def maybe_double_last(hand):
         list: The hand with Jacks (if present) value doubled.
     """
 
-    pass
+    updated_hand = hand.copy()
+    if updated_hand[-1] == 11:
+        updated_hand[-1] = 22
+    
+    return updated_hand
