@@ -23,9 +23,7 @@ def value_of_card(card):
         return 10
     if card == 'A':
         return 1
-    if int(card) in range (2, 11):
-        return int(card)
-    return None
+    return int(card)
 
 
 def higher_card(card_one, card_two):
@@ -43,16 +41,14 @@ def higher_card(card_one, card_two):
         str or tuple: The resulting tuple contains both cards if they are of equal value.
     """
 
-    value_card_one = value_of_card(card_one)
-    value_card_two = value_of_card(card_two)
+    val_one = value_of_card(card_one)
+    val_two = value_of_card(card_two)
 
-    if value_card_one < value_card_two:
+    if val_one < val_two:
         return card_two
-    if value_card_one > value_card_two:
+    if val_one > val_two:
         return card_one
-    if value_card_one == value_card_two:
-        return card_one, card_two
-    return None
+    return card_one, card_two
 
 
 def value_of_ace(card_one, card_two):
@@ -70,17 +66,11 @@ def value_of_ace(card_one, card_two):
         int: Either 1 or 11, which is the value of the upcoming ace card.
     """
 
-    value_card_one = value_of_card(card_one)
-    value_card_two = value_of_card(card_two)
-    cards = {card_one, card_two}
-
-    if 'A' in cards:
+    if 'A' in (card_one, card_two):
         return 1
-    if value_card_one + value_card_two > 10:
-        return 1
-    if value_card_one + value_card_two <= 10:
-        return 11
-    return None
+        
+    total = value_of_card(card_one) + value_of_card(card_two)
+    return 1 if total > 10 else 11
     
 
 def is_blackjack(card_one, card_two):
@@ -99,16 +89,9 @@ def is_blackjack(card_one, card_two):
     """
 
     cards = {card_one, card_two}
-    tens = {'10', 'J', 'Q', 'K'}
+    ten_cards = {'10', 'J', 'Q', 'K'}
     
-    if 'A' not in cards:
-        return False
-    if 'A' in cards:
-        if not tens.isdisjoint(cards):
-            return True
-        if tens.isdisjoint(cards):
-            return False
-    return None
+    return 'A' in cards and not cards.isdisjoint(ten_cards)
 
 
 def can_split_pairs(card_one, card_two):
@@ -122,14 +105,7 @@ def can_split_pairs(card_one, card_two):
         bool: Can the hand be split into two pairs? (i.e. cards are of the same value).
     """
 
-    value_card_one = value_of_card(card_one)
-    value_card_two = value_of_card(card_two)
-
-    if value_card_one == value_card_two:
-        return True
-    if value_card_one != value_card_two:
-        return False
-    return None
+    return value_of_card(card_one) == value_of_card(card_two)
 
 
 def can_double_down(card_one, card_two):
@@ -143,12 +119,4 @@ def can_double_down(card_one, card_two):
         bool: Can the hand can be doubled down? (i.e. totals 9, 10 or 11 points).
     """
 
-    value_card_one = value_of_card(card_one)
-    value_card_two = value_of_card(card_two)
-    total = value_card_one + value_card_two
-
-    if 9 <= total <= 11:
-        return True
-    if total < 9 or total > 11:
-        return False
-    return None
+    return 9 <= (value_of_card(card_one) + value_of_card(card_two)) <= 11
