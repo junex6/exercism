@@ -11,10 +11,7 @@ def round_scores(student_scores):
         list[int]: Student scores *rounded* to the nearest integer value.
     """
 
-    rounded_student_scores = []
-    for score in student_scores:
-        rounded_student_scores.append(round(score))
-    return rounded_student_scores
+    return [round(score) for score in student_scores]
 
 
 def count_failed_students(student_scores):
@@ -61,8 +58,8 @@ def letter_grades(highest):
             86 <= "A" <= 100
     """
 
-    interval = round((highest - 40) / 4)
-    return [41, 41+interval, 41+interval*2, 41+interval*3]
+    interval = (highest - 40) // 4
+    return [41 + interval * i for i in range(4)]
 
 
 def student_ranking(student_scores, student_names):
@@ -76,10 +73,10 @@ def student_ranking(student_scores, student_names):
         list[str]: Strings in format ["<rank>. <student name>: <score>"].
     """
 
-    student_rank = []
-    for idx, student in enumerate(student_names):
-        student_rank.append(f"{idx + 1}. {student}: {student_scores[idx]}")
-    return student_rank
+    return [
+        f'{rank}. {name}: {score}'
+        for rank, (name, score) in enumerate(zip(student_names, student_scores), start=1)
+    ]
 
 
 def perfect_score(student_info):
@@ -93,9 +90,7 @@ def perfect_score(student_info):
     """
 
     for student in student_info:
-        if 100 in student:
+        if student[1] == 100:
             return student
-        if 100 not in student:
-            continue
     return []
         
