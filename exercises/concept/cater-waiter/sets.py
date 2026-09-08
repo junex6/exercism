@@ -25,7 +25,7 @@ def clean_ingredients(dish_name, dish_ingredients):
 
     """
 
-    pass
+    return dish_name, set(dish_ingredients)
 
 
 def check_drinks(drink_name, drink_ingredients):
@@ -43,7 +43,9 @@ def check_drinks(drink_name, drink_ingredients):
 
     """
 
-    pass
+    if ALCOHOLS.isdisjoint(drink_ingredients):
+        return f'{drink_name} Mocktail'
+    return f'{drink_name} Cocktail'
 
 
 def categorize_dish(dish_name, dish_ingredients):
@@ -61,9 +63,20 @@ def categorize_dish(dish_name, dish_ingredients):
     All dishes will "fit" into one of the categories imported from `sets_categories_data.py`
     """
 
-    pass
+    categories = [
+        ('VEGAN', VEGAN),
+        ('VEGETARIAN', VEGETARIAN),
+        ('PALEO', PALEO),
+        ('KETO', KETO),
+        ('OMNIVORE', OMNIVORE)
+    ]    
+    
+    for category_name, category_set in categories:
+        if dish_ingredients.issubset(category_set):
+            return f"{dish_name}: {category_name}"
+    return f"{dish_name}: UNKNOWN"
 
-
+        
 def tag_special_ingredients(dish):
     """Compare `dish` ingredients to `SPECIAL_INGREDIENTS`.
 
@@ -78,7 +91,8 @@ def tag_special_ingredients(dish):
     SPECIAL_INGREDIENTS constant imported from `sets_categories_data.py`.
     """
 
-    pass
+    dish_name, dish_ingredients = dish
+    return dish_name, set(dish_ingredients) & SPECIAL_INGREDIENTS
 
 
 def compile_ingredients(dishes):
@@ -93,7 +107,7 @@ def compile_ingredients(dishes):
     This function should return a `set` of all ingredients from all listed dishes.
     """
 
-    pass
+    return set().union(*dishes)
 
 
 def separate_appetizers(dishes, appetizers):
@@ -110,7 +124,7 @@ def separate_appetizers(dishes, appetizers):
     Either list could contain duplicates and may require de-duping.
     """
 
-    pass
+    return list(set(dishes) - set(appetizers))
 
 
 def singleton_ingredients(dishes, intersection):
@@ -131,4 +145,4 @@ def singleton_ingredients(dishes, intersection):
     The function should return a `set` of ingredients that only appear in a single dish.
     """
 
-    pass
+    return set().union(*dishes) - intersection
