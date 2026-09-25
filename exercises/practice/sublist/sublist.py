@@ -12,11 +12,27 @@ You can learn more here: https://en.wikipedia.org/wiki/Enumerated_type
 
 # Possible sublist categories.
 # Change the values as you see fit.
-SUBLIST = None
-SUPERLIST = None
-EQUAL = None
-UNEQUAL = None
+SUBLIST = 1
+SUPERLIST = 2
+EQUAL = 3
+UNEQUAL = 4
+
+
+def is_sublist(short_list, long_list):
+    if not short_list:
+        return True
+
+    len_short = len(short_list)
+    len_long = len(long_list)
+
+    return any(short_list == long_list[i : (i+len_short)] for i in range(len_long - len_short + 1))
 
 
 def sublist(list_one, list_two):
-    pass
+    if list_one == list_two:
+        return EQUAL
+    if is_sublist(list_one, list_two):
+        return SUBLIST
+    if is_sublist(list_two, list_one):
+        return SUPERLIST
+    return UNEQUAL
