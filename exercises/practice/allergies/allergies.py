@@ -1,11 +1,22 @@
+SCORES = {
+    "eggs": 1,
+    "peanuts": 2,
+    "shellfish": 4,
+    "strawberries": 8,
+    "tomatoes": 16,
+    "chocolate": 32,
+    "pollen": 64,
+    "cats": 128,
+}
+
 class Allergies:
 
     def __init__(self, score):
-        pass
+        self._score = score
 
     def allergic_to(self, item):
-        pass
+        return bool(self._score & SCORES[item])
 
     @property
     def lst(self):
-        pass
+        return [item for item in SCORES if self.allergic_to(item)]
